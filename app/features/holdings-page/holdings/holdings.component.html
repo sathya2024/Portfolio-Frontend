@@ -1,0 +1,835 @@
+<div class="container-fluid p-0">
+  <header class="value-research-header" style="background-color: #f8f9fa">
+    <div
+      class="container d-flex justify-content-between align-items-center py-3"
+    >
+      <div class="d-flex align-items-center">
+        <img
+          src="assets/images/logo.png"
+          alt="FINTRACK"
+          height="70"
+          class="me-3"
+        />
+      </div>
+      <div class="header-center text-center">
+        <h1 class="mb-0 fancy-title">FinTrack</h1>
+        <p class="mb-0 fancy-subtitle">
+          Where finances meet clarity
+        </p>
+      </div>
+
+      <div class="d-flex align-items-center">
+        <div class="user-avatar">
+          <span
+            class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 32px; height: 32px"
+            >S</span
+          >
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Portfolio Header -->
+  <div class="portfolio-header py-3 border-bottom">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="portfolio-title">
+          <h3 class="mb-0">Holdings</h3>
+        </div>
+        <button class="btn btn-primary" (click)="openAddInvestmentModal()">
+          <i class="bi bi-plus-lg"></i>Add Investment
+        </button>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">Holdings Summary</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!-- Total Value -->
+                <div class="col-md-3">
+                  <div class="card bg-light mb-3">
+                    <div class="card-body text-center">
+                      <h6 class="card-title">Current Value</h6>
+                      <h3 class="mb-0">
+                        ₹{{ totalInvestmentValue.toFixed(2) }}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+                <!-- Total Cost -->
+                <div class="col-md-3">
+                  <div class="card bg-light mb-3">
+                    <div class="card-body text-center">
+                      <h6 class="card-title">Invested Value</h6>
+                      <h3 class="mb-0">
+                        ₹{{ totalInvestmentCost.toFixed(2) }}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Per Day Gain/Loss -->
+                <div class="col-md-3">
+                  <div class="card bg-light mb-3">
+                    <div class="card-body text-center">
+                      <h6 class="card-title">Per Day Gain/Loss</h6>
+                      <h3
+                        class="mb-0"
+                        [ngClass]="{
+                          'text-success': perDayGainLoss > 0,
+                          'text-danger': perDayGainLoss < 0
+                        }"
+                      >
+                        ₹{{ perDayGainLoss.toFixed(2) }}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+                <!-- Total Gain/Loss -->
+                <div class="col-md-3">
+                  <div class="card bg-light mb-3">
+                    <div class="card-body text-center">
+                      <h6 class="card-title">Total Gain/Loss</h6>
+                      <h3
+                        class="mb-0"
+                        [ngClass]="{
+                          'text-success': totalGainLoss > 0,
+                          'text-danger': totalGainLoss < 0
+                        }"
+                      >
+                        ₹{{ totalGainLoss.toFixed(2) }}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="mt-4 border-bottom">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="['/dashboard']"
+              routerLinkActive="active"
+              >Dashboard</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="['/holdings']"
+              routerLinkActive="active"
+              >Holdings</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="['/transactions']"
+              routerLinkActive="active"
+              >Transactions</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        
+        <div class="investment-type-tabs mb-3">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activeTab === 'all' }"
+                (click)="setActiveTab('all')"
+                >All Holdings</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activeTab === 'stock' }"
+                (click)="setActiveTab('stock')"
+                >Stocks</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activeTab === 'bond' }"
+                (click)="setActiveTab('bond')"
+                >Bonds</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activeTab === 'mutual-fund' }"
+                (click)="setActiveTab('mutual-fund')"
+                >Mutual Funds</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activeTab === 'gold-bond' }"
+                (click)="setActiveTab('gold-bond')"
+                >Gold Bonds</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="card" *ngIf="activeTab === 'all'">
+          <div
+            class="card-header bg-light d-flex justify-content-between align-items-center"
+          >
+            <h5 class="mb-0">All Holdings</h5>
+            <div>
+            <button
+              class="btn btn-sm btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target="#infoModal"
+            >
+              <i class="bi bi-info-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" (click)="exportActiveTabToExcel()">
+              <i class="fas fa-download"></i> Export to Excel
+            </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                    <th>Purchase Price</th>
+                    <th>Purchase Date</th>
+                    <th>Current Price</th>
+                    <th>Current Value</th>
+                    <th>Gain/Loss</th>
+                    <th>%</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="10" class="text-center p-3">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="!loading && error">
+                    <td colspan="10" class="text-center text-danger p-3">
+                      {{ error }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="!loading && !error && investments.length === 0">
+                    <td colspan="10" class="text-center p-3">
+                      No investments found. Add some to get started!
+                    </td>
+                  </tr>
+                  <tr *ngFor="let investment of investments">
+                    <td>
+                      <strong>{{ investment.ticker }}</strong>
+                    </td>
+                    <td>
+                      <span
+                        class="badge rounded-pill type-badge"
+                        [ngClass]="getTypeClass(investment.type)"
+                        >{{ formatType(investment.type) }}</span
+                      >
+                    </td>
+                    <td>{{ investment.quantity }}</td>
+                    <td>₹{{ investment.purchasePrice.toFixed(2) }}</td>
+                    <td>
+                      {{ investment.purchaseDate | date : "mediumDate" }}
+                    </td>
+                    <td>₹{{ investment.currentPrice?.toFixed(2) }}</td>
+                    <td>₹{{ investment.currentValue?.toFixed(2) }}</td>
+                    <td
+                      [ngClass]="{
+                        'text-success': investment.change! > 0,
+                        'text-danger': investment.change! < 0
+                      }"
+                    >
+                      ₹{{ investment.change?.toFixed(2) }}
+                    </td>
+                    <td
+                      [ngClass]="{
+                        'text-success': investment.changePercentage! > 0,
+                        'text-danger': investment.changePercentage! < 0
+                      }"
+                    >
+                      {{ investment.changePercentage?.toFixed(2) }}%
+                    </td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary me-1">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    *ngIf="!loading && !error && investments.length > 0"
+                    class="table-light font-weight-bold"
+                  >
+                    <td><strong>Total</strong></td>
+                    <td>-</td>
+                    <td>{{ totalQuantity }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
+                      <strong>₹{{ totalCurrentValue.toFixed(2) }}</strong>
+                    </td>
+                    <td
+                      [ngClass]="{
+                        'text-success': totalChange > 0,
+                        'text-danger': totalChange < 0
+                      }"
+                    >
+                      <strong>₹{{ totalChange.toFixed(2) }}</strong>
+                    </td>
+                    <td
+                      [ngClass]="{
+                        'text-success': totalChangePercentage > 0,
+                        'text-danger': totalChangePercentage < 0
+                      }"
+                    >
+                      <strong>{{ totalChangePercentage.toFixed(2) }}%</strong>
+                    </td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" *ngIf="activeTab === 'stock'">
+          <div
+            class="card-header bg-light d-flex justify-content-between align-items-center"
+          >
+            <h5 class="mb-0">Stock Holdings</h5>
+      <div>
+            <button
+              class="btn btn-sm btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target="#infoModal"
+            >
+              <i class="bi bi-info-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" (click)="exportActiveTabToExcel()">
+              <i class="fas fa-download"></i> Export to Excel
+            </button>
+          </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Quantity</th>
+                    <th>Purchase Price</th>
+                    <th>Purchase Date</th>
+                    <th>Current Price</th>
+                    <th>Current Value</th>
+                    <th>Gain/Loss</th>
+                    <th>%</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="9" class="text-center p-3">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="!loading && stockInvestments.length === 0">
+                    <td colspan="9" class="text-center p-3">
+                      No stock investments found.
+                    </td>
+                  </tr>
+                  <tr *ngFor="let investment of stockInvestments">
+                    <td>
+                      <strong>{{ investment.ticker }}</strong>
+                    </td>
+                    <td>{{ investment.quantity }}</td>
+                    <td>₹{{ investment.purchasePrice.toFixed(2) }}</td>
+                    <td>
+                      {{ investment.purchaseDate | date : "mediumDate" }}
+                    </td>
+                    <td>₹{{ investment.currentPrice?.toFixed(2) }}</td>
+                    <td>₹{{ investment.currentValue?.toFixed(2) }}</td>
+                    <td
+                      [ngClass]="{
+                        'text-success': investment.change! > 0,
+                        'text-danger': investment.change! < 0
+                      }"
+                    >
+                      ₹{{ investment.change?.toFixed(2) }}
+                    </td>
+                    <td
+                      [ngClass]="{
+                        'text-success': investment.changePercentage! > 0,
+                        'text-danger': investment.changePercentage! < 0
+                      }"
+                    >
+                      {{ investment.changePercentage?.toFixed(2) }}%
+                    </td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary me-1">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    *ngIf="!loading && stockInvestments.length > 0"
+                    class="table-light font-weight-bold"
+                  >
+                    <td><strong>Total</strong></td>
+                    <td>{{ getTypeTotalQuantity("stock") }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
+                      <strong
+                        >₹{{ getTypeTotalValue("stock").toFixed(2) }}</strong
+                      >
+                    </td>
+                    <td
+                      [ngClass]="{
+                        'text-success': getTypeTotalChange('stock') > 0,
+                        'text-danger': getTypeTotalChange('stock') < 0
+                      }"
+                    >
+                      <strong
+                        >₹{{ getTypeTotalChange("stock").toFixed(2) }}</strong
+                      >
+                    </td>
+                    <td
+                      [ngClass]="{
+                        'text-success':
+                          getTypeTotalChangePercentage('stock') > 0,
+                        'text-danger': getTypeTotalChangePercentage('stock') < 0
+                      }"
+                    >
+                      <strong
+                        >{{
+                          getTypeTotalChangePercentage("stock").toFixed(2)
+                        }}%</strong
+                      >
+                    </td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bond Holdings Table -->
+        <div class="card" *ngIf="activeTab === 'bond'">
+          <div
+            class="card-header bg-light d-flex justify-content-between align-items-center"
+          >
+            <h5 class="mb-0">Bond Holdings</h5>
+            <div>
+            <button
+              class="btn btn-sm btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target="#infoModal"
+            >
+              <i class="bi bi-info-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" (click)="exportActiveTabToExcel()">
+              <i class="fas fa-download"></i> Export to Excel
+            </button>
+          </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Quantity</th>
+                    <th>Purchase Price</th>
+                    <th>Purchase Date</th>
+                    <th>Maturity Date</th>
+                    <th>Current Price</th>
+                    <th>Current Value</th>
+                    <th>Yield (%)</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="9" class="text-center p-3">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="!loading && bondInvestments.length === 0">
+                    <td colspan="9" class="text-center p-3">
+                      No bond investments found.
+                    </td>
+                  </tr>
+                  <tr *ngFor="let investment of bondInvestments">
+                    <td>
+                      <strong>{{ investment.ticker }}</strong>
+                    </td>
+                    <td>{{ investment.quantity }}</td>
+                    <td>₹{{ investment.purchasePrice.toFixed(2) }}</td>
+                    <td>
+                      {{ investment.purchaseDate | date : "mediumDate" }}
+                    </td>
+                    <td>
+                      {{ getMaturityDate(investment) | date : "mediumDate" }}
+                    </td>
+                    <td>₹{{ investment.currentPrice?.toFixed(2) }}</td>
+                    <td>₹{{ investment.currentValue?.toFixed(2) }}</td>
+                    <td>{{ getBondYield(investment).toFixed(2) }}%</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary me-1">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    *ngIf="!loading && bondInvestments.length > 0"
+                    class="table-light font-weight-bold"
+                  >
+                    <td><strong>Total</strong></td>
+                    <td>{{ getTypeTotalQuantity("bond") }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
+                      <strong
+                        >₹{{ getTypeTotalValue("bond").toFixed(2) }}</strong
+                      >
+                    </td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mutual Fund Holdings Table -->
+        <div class="card" *ngIf="activeTab === 'mutual-fund'">
+          <div
+            class="card-header bg-light d-flex justify-content-between align-items-center"
+          >
+            <h5 class="mb-0">Mutual Fund Holdings</h5>
+            <div>
+            <button
+              class="btn btn-sm btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target="#infoModal"
+            >
+              <i class="bi bi-info-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" (click)="exportActiveTabToExcel()">
+              <i class="fas fa-download"></i> Export to Excel
+            </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Units</th>
+                    <th>Purchase NAV</th>
+                    <th>Purchase Date</th>
+                    <th>Current NAV</th>
+                    <th>Current Value</th>
+                    <th>Gain/Loss</th>
+                    <th>CAGR (%)</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="9" class="text-center p-3">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="!loading && mutualFundInvestments.length === 0">
+                    <td colspan="9" class="text-center p-3">
+                      No mutual fund investments found.
+                    </td>
+                  </tr>
+                  <tr *ngFor="let investment of mutualFundInvestments">
+                    <td>
+                      <strong>{{ investment.ticker }}</strong>
+                    </td>
+                    <td>{{ investment.quantity }}</td>
+                    <td>₹{{ investment.purchasePrice.toFixed(2) }}</td>
+                    <td>
+                      {{ investment.purchaseDate | date : "mediumDate" }}
+                    </td>
+                    <td>₹{{ investment.currentPrice?.toFixed(2) }}</td>
+                    <td>₹{{ investment.currentValue?.toFixed(2) }}</td>
+                    <td
+                      [ngClass]="{
+                        'text-success': investment.change! > 0,
+                        'text-danger': investment.change! < 0
+                      }"
+                    >
+                      ₹{{ investment.change?.toFixed(2) }}
+                    </td>
+                    <td>{{ getMutualFundCAGR(investment).toFixed(2) }}%</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary me-1">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    *ngIf="!loading && mutualFundInvestments.length > 0"
+                    class="table-light font-weight-bold"
+                  >
+                    <td><strong>Total</strong></td>
+                    <td>{{ getTypeTotalQuantity("mutual-fund") }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
+                      <strong
+                        >₹{{
+                          getTypeTotalValue("mutual-fund").toFixed(2)
+                        }}</strong
+                      >
+                    </td>
+                    <td
+                      [ngClass]="{
+                        'text-success': getTypeTotalChange('mutual-fund') > 0,
+                        'text-danger': getTypeTotalChange('mutual-fund') < 0
+                      }"
+                    >
+                      <strong
+                        >₹{{
+                          getTypeTotalChange("mutual-fund").toFixed(2)
+                        }}</strong
+                      >
+                    </td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gold Bond Holdings Table -->
+        <div class="card" *ngIf="activeTab === 'gold-bond'">
+          <div
+            class="card-header bg-light d-flex justify-content-between align-items-center"
+          >
+            <h5 class="mb-0">Gold Bond Holdings</h5>
+            <div>
+            <button
+              class="btn btn-sm btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target="#infoModal"
+            >
+              <i class="bi bi-info-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" (click)="exportActiveTabToExcel()">
+              <i class="fas fa-download"></i> Export to Excel
+            </button>
+          </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Series</th>
+                    <th>Units</th>
+                    <th>Purchase Price</th>
+                    <th>Purchase Date</th>
+                    <th>Current Price</th>
+                    <th>Current Value</th>
+                    <th>Interest Rate (%)</th>
+                    <th>Gain/Loss</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="9" class="text-center p-3">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="!loading && goldBondInvestments.length === 0">
+                    <td colspan="9" class="text-center p-3">
+                      No gold bond investments found.
+                    </td>
+                  </tr>
+                  <tr *ngFor="let investment of goldBondInvestments">
+                    <td>
+                      <strong>{{ investment.ticker }}</strong>
+                    </td>
+                    <td>{{ investment.quantity }}</td>
+                    <td>₹{{ investment.purchasePrice.toFixed(2) }}</td>
+                    <td>
+                      {{ investment.purchaseDate | date : "mediumDate" }}
+                    </td>
+                    <td>₹{{ investment.currentPrice?.toFixed(2) }}</td>
+                    <td>₹{{ investment.currentValue?.toFixed(2) }}</td>
+                    <td>
+                      {{ getGoldBondInterestRate(investment).toFixed(2) }}%
+                    </td>
+                    <td
+                      [ngClass]="{
+                        'text-success': investment.change! > 0,
+                        'text-danger': investment.change! < 0
+                      }"
+                    >
+                      ₹{{ investment.change?.toFixed(2) }}
+                    </td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary me-1">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    *ngIf="!loading && goldBondInvestments.length > 0"
+                    class="table-light font-weight-bold"
+                  >
+                    <td><strong>Total</strong></td>
+                    <td>{{ getTypeTotalQuantity("gold-bond") }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
+                      <strong
+                        >₹{{
+                          getTypeTotalValue("gold-bond").toFixed(2)
+                        }}</strong
+                      >
+                    </td>
+                    <td>-</td>
+                    <td
+                      [ngClass]="{
+                        'text-success': getTypeTotalChange('gold-bond') > 0,
+                        'text-danger': getTypeTotalChange('gold-bond') < 0
+                      }"
+                    >
+                      <strong
+                        >₹{{
+                          getTypeTotalChange("gold-bond").toFixed(2)
+                        }}</strong
+                      >
+                    </td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div
+    class="modal fade"
+    id="infoModal"
+    tabindex="-1"
+    aria-labelledby="infoModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="infoModalLabel">Know Your Terms</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li>
+              <strong>Last Price:</strong> The last traded price, with priority
+              given to NSE, followed by BSE.
+            </li>
+            <li>
+              <strong>Total Cost:</strong> Total cost of currently held units
+              (calculated after adjusting all sold units on a first-in,
+              first-out basis).
+            </li>
+            <li>
+              <strong>Cost per Share:</strong> Total cost / Balance units.
+            </li>
+            <li>
+              <strong>Current Value:</strong> Latest market price or NAV *
+              Balance units.
+            </li>
+            <li>
+              <strong>Total Return:</strong> Current value - Cost value + Gain
+              or loss from sold investment + Dividend.
+            </li>
+            <li>
+              <strong>Return % PA:</strong> XIRR of cash flows, including
+              dividends and interests.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,204 @@
+.bonds-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, sans-serif;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 15px; 
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px; 
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  color: #0066cc;
+  text-decoration: none;
+  margin-right: 10px; 
+}
+
+h1 {
+  font-size: 20px; 
+  font-weight: 600;
+  margin: 0;
+}
+
+.portfolio-selector,
+.transaction-type {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px; 
+}
+
+.portfolio-selector span,
+.transaction-type span {
+  margin-right: 8px; 
+  width: 100px; 
+  font-weight: 500;
+}
+
+.dropdown select {
+  width: 160px; 
+  padding: 6px 10px; 
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(140px, 1fr)
+  ); 
+  gap: 15px; 
+  margin-bottom: 15px; 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 11px; 
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 5px; 
+  text-transform: uppercase;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input {
+  width: 100%;
+  padding: 6px 10px; 
+  font-size: 11px; 
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.search-input {
+  position: relative;
+}
+
+.search-input input {
+  padding-left: 28px; 
+}
+
+.search-icon,
+.calendar-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.search-icon {
+  left: 8px; 
+}
+
+.calendar-icon {
+  right: 8px; 
+  pointer-events: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+input[type="date"] {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.radio-options {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px; 
+  margin-bottom: 10px; 
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  font-size: 11px; 
+  font-weight: 500;
+}
+
+input[type="radio"] {
+  margin-right: 5px; 
+}
+
+
+.submit-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px; 
+}
+
+.add-transaction-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0066cc;
+  color: #fff;
+  border: none;
+  padding: 8px 16px; 
+  font-size: 13px; 
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-transaction-btn svg {
+  margin-right: 6px;
+  stroke: #fff;
+}
+
+.add-transaction-btn:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr; 
+  }
+}
+
+@media (max-width: 480px) {
+  .form-grid {
+    grid-template-columns: 1fr; 
+  }
+
+  .portfolio-selector,
+  .transaction-type {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .portfolio-selector span,
+  .transaction-type span {
+    width: auto;
+    margin-bottom: 5px; 
+  }
+
+  .dropdown select {
+    width: 100%; 
+  }
+
+  .add-transaction-btn {
+    width: 100%; 
+    padding: 10px;
+  }
+}

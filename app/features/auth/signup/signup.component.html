@@ -1,0 +1,82 @@
+<app-nav></app-nav>
+<br/>
+<div class="container d-flex justify-content-center align-items-center vh-85 vw-100">
+    <div class="card p-4 shadow-lg" style="max-width: 450px; width: 100%;">
+        <h4 class="text-center mb-3" style="color: #004c6a;font-family: 'Poppins', sans-serif; font-weight:bold ;">REGISTER</h4>
+ 
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" formControlName="name" class="form-control" />
+            </div>
+ 
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" formControlName="email" class="form-control" />
+            </div>
+ 
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" formControlName="password" class="form-control" />
+            </div>
+ 
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" />
+            </div>
+ 
+            <div *ngIf="registerForm.errors?.['mismatch'] && submitted" class="text-danger">
+                Password and Confirm Password do not match.
+            </div>
+ 
+            <!-- Security Question -->
+            <div class="mb-3">
+                <label for="securityQuestion" class="form-label">Security Question</label>
+                <select id="securityQuestion" formControlName="securityQuestion" class="form-control">
+                    <option value="">Select a question</option>
+                    <option *ngFor="let question of securityQuestions" [value]="question">{{ question }}</option>
+                </select>
+            </div>
+ 
+            <!-- Security Answer -->
+            <div class="mb-3">
+                <label for="securityAnswer" class="form-label">Answer</label>
+                <input type="text" id="securityAnswer" formControlName="securityAnswer" class="form-control" />
+            </div>
+ 
+            <div class="text-center mb-3">
+                <span>Already have an account?
+                    <a routerLink="/login" class="text-decoration-none fw-bold" style="color: #004c6a;">Login</a>
+                </span>
+            </div>
+ 
+            <!-- Submit -->
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" style="width: 100px;">
+                    Sign Up
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+ 
+<!-- Modal -->
+<div *ngIf="showModal" class="modal fade show" tabindex="-1" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registration Successful</h5>
+                <button type="button" class="btn btn-secondary" aria-label="Close" (click)="closeModal()">X</button>
+            </div>
+            <div class="modal-body">
+                <p>Your account has been created successfully. You will now be redirected to the login page.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+ <app-footer></app-footer>

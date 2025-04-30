@@ -1,0 +1,140 @@
+<div class="bonds-container">
+  <div class="transaction-type">
+    <span>Transaction Type</span>
+    <div class="dropdown">
+      <select>
+        <option>Buy</option>
+      </select>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>SECURITY'S NAME</label>
+        <div class="search-input">
+          <svg
+            class="search-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+          >
+            <circle cx="7" cy="7" r="5" />
+            <path d="M11 11l3 3" />
+          </svg>
+          <input formControlName="name" placeholder="Security's Name" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>PURCHASE DATE</label>
+        <div class="date-input">
+          <input
+            formControlName="date"
+            type="date"
+            value="2025-04-21"
+            class="date-picker"
+          />
+          <svg
+            class="calendar-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+          >
+            <rect x="1" y="3" width="14" height="12" stroke-width="1" />
+            <line x1="1" y1="7" x2="15" y2="7" stroke-width="1" />
+            <line x1="4" y1="1" x2="4" y2="5" stroke-width="1" />
+            <line x1="12" y1="1" x2="12" y2="5" stroke-width="1" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>UNITS</label>
+        <input formControlName="units" placeholder="Units" />
+      </div>
+
+      <div class="form-group">
+        <label>PRICE</label>
+        <input formControlName="price" placeholder="Price" />
+      </div>
+
+      <div class="form-group">
+        <label>BROKERAGE IN %</label>
+        <input formControlName="brokerage" placeholder="0.100000" />
+      </div>
+    </div>
+
+    <div class="radio-options">
+      <div class="radio-group">
+        <label>
+          <input
+            type="radio"
+            formControlName="brokerageType"
+            value="percentage"
+            checked
+          />
+          In %
+        </label>
+      </div>
+      <div class="radio-group">
+        <label>
+          <input type="radio" formControlName="brokerageType" value="rupees" />
+          In ₹
+        </label>
+      </div>
+    </div>
+
+    <div class="bottom-form-row">
+      <div class="form-group">
+        <label>COUPON RATE</label>
+        <input formControlName="coupon" placeholder="Coupon rate" />
+      </div>
+
+      <div class="form-group">
+        <label>MATURITY DATE</label>
+        <div class="date-input">
+          <input
+            formControlName="maturity"
+            type="date"
+            placeholder="Maturity date"
+            class="date-picker"
+          />
+          <svg
+            class="calendar-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+          >
+            <rect x="1" y="3" width="14" height="12" stroke-width="1" />
+            <line x1="1" y1="7" x2="15" y2="7" stroke-width="1" />
+            <line x1="4" y1="1" x2="4" y2="5" stroke-width="1" />
+            <line x1="12" y1="1" x2="12" y2="5" stroke-width="1" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-container">
+      <button type="submit" class="add-transaction-btn">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M8 1v14M1 8h14" />
+        </svg>
+        Add Transaction
+      </button>
+    </div>
+  </form>
+</div>

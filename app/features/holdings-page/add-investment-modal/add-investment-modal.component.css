@@ -1,0 +1,23 @@
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+}
+.option-list .option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-light);
+  transition: background-color 0.3s ease-in-out;
+}
+.option-list .option:hover {
+  background-color: var(--color-light-hover);
+}

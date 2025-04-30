@@ -1,0 +1,101 @@
+<!-- HTML -->
+<div class="funds-container">
+  <div class="transaction-type">
+    <span>Transaction Type</span>
+    <div class="dropdown">
+      <select>
+        <option>Buy</option>
+      </select>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>SCHEME NAME</label>
+        <div class="search-input">
+          <svg
+            class="search-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+          >
+            <circle cx="7" cy="7" r="5" />
+            <path d="M11 11l3 3" />
+          </svg>
+          <input formControlName="scheme" placeholder="Search Scheme" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>FOLIO NO.</label>
+        <input formControlName="folio" placeholder="Folio no." />
+      </div>
+
+      <div class="form-group">
+        <label>DATE OF INVESTMENT</label>
+        <input
+          formControlName="date"
+          type="date"
+          value="2025-04-21"
+          class="date-picker"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>AMOUNT IN ₹</label>
+        <input formControlName="amount" placeholder="Amount in ₹" />
+      </div>
+
+      <div class="form-group">
+        <label>PRICE</label>
+        <input formControlName="price" placeholder="Price" />
+      </div>
+    </div>
+
+    <div class="radio-options">
+      <div class="radio-group">
+        <label>
+          <input
+            type="radio"
+            formControlName="unitType"
+            value="Rupees"
+            checked
+          />
+          Rupees
+        </label>
+      </div>
+      <div class="radio-group">
+        <label>
+          <input type="radio" formControlName="unitType" value="Units" />
+          Units
+        </label>
+      </div>
+    </div>
+
+    <div class="stamp-duty-note">
+      <p>
+        For all purchases effective 1st July, 2020, the units have been allotted
+        after adjusting for the stamp duty.
+      </p>
+    </div>
+
+    <div class="submit-container">
+      <button type="submit" class="add-transaction-btn">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M8 1v14M1 8h14" />
+        </svg>
+        Add Transaction
+      </button>
+    </div>
+  </form>
+</div>

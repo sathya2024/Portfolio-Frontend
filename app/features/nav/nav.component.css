@@ -1,0 +1,54 @@
+.navbar-brand img {
+    border-radius: 50%;
+}
+
+.dm-serif-text-regular {
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .dm-serif-text-regular-italic {
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+ 
+.fancy-title {
+  font-family: 'Poppins', sans-serif; 
+  font-weight: 700; 
+  font-size: 2.5rem; 
+  color: #004c6a; 
+  letter-spacing: 1px; 
+  text-transform: uppercase; 
+  margin: 0; 
+}
+
+.fancy-subtitle {
+  font-family: 'Poppins', sans-serif; 
+  font-weight: 400; 
+  font-size: 1.2rem; 
+  color: #6c757d; 
+  margin: 0;
+  letter-spacing: 0.5px; 
+}
+
+.fancy-title {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.fancy-subtitle {
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  

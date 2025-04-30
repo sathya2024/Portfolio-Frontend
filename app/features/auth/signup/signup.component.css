@@ -1,0 +1,34 @@
+/* Card Styling */
+.card {
+    border: 1px solid #e2e8f0; /* Subtle border for the card */
+    border-radius: 8px; /* Rounded corners for the card */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Light shadow for a modern look */
+  }
+  
+  /* Header Styling */
+  .card-header {
+    background-color: #004c6a; /* Dark blue background */
+    color: white; /* White text for contrast */
+    font-family: 'Poppins', sans-serif; /* Consistent font */
+    font-weight: bold; /* Bold text for emphasis */
+    text-align: center; /* Centered text */
+  }
+  
+  /* Button Styling */
+  .btn-primary {
+    background-color: #004c6a; /* Dark blue background */
+    border-color: #004c6a; /* Match the border color */
+    color: white; /* White text for contrast */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .btn-primary:hover {
+    background-color: #00334a; /* Slightly darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  }
+  
+  .btn-primary:disabled {
+    background-color: #004c6a; /* Keep the same color for disabled state */
+    opacity: 0.65; /* Slight transparency for disabled state */
+    cursor: not-allowed; /* Show not-allowed cursor */
+  }

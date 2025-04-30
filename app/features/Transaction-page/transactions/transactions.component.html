@@ -1,0 +1,340 @@
+<div class="container">
+  <header class="value-research-header" style="background-color: #f8f9fa">
+    <div class="container d-flex justify-content-between align-items-center py-3">
+      <!-- Logo Section -->
+      <div class="d-flex align-items-center">
+        <img src="assets/images/logo.png" alt="FINTRACK" height="70" class="me-3" />
+      </div>
+
+      <!-- Header Center Section -->
+      <div class="header-center text-center">
+        <h1 class="mb-0 fancy-title">FinTrack</h1>
+        <p class="mb-0 fancy-subtitle">
+          Where finances meet clarity
+        </p>
+      </div>
+
+      <!-- User Avatar Section -->
+      <div class="d-flex align-items-center">
+        <div class="user-avatar">
+          <span class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 32px; height: 32px">S</span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Portfolio Header -->
+  <div class="portfolio-header py-3 border-bottom">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <!-- Portfolio Title -->
+        <div class="portfolio-title">
+          <h3 class="mb-0">Transactions</h3>
+        </div>
+      </div>
+      
+
+      <!-- Navigation Tabs -->
+      <div class="mt-4 border-bottom">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="active">
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/holdings']" routerLinkActive="active">
+              Holdings
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/transactions']" routerLinkActive="active">
+              Transactions
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="container">
+    <app-recenttransaction 
+   
+        [transactions]="recentTransactions"
+        [onTransactionClick]="navigateToTransaction.bind(this)">
+        
+            </app-recenttransaction>
+
+    <!-- Filters Card -->
+    <div class="card filters-card">
+        <div class="filter-row">
+            <div class="filter-group">
+                <label>From Date</label>
+                <input type="date" [(ngModel)]="fromDate" class="form-input">
+            </div>
+            <div class="filter-group">
+                <label>To Date</label>
+                <input type="date" [(ngModel)]="toDate" class="form-input">
+            </div>
+            <div class="filter-group">
+                <label>Transaction Type</label>
+                <select [(ngModel)]="selectedType" class="form-input">
+                    <option value="all">All Types</option>
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                    <option value="dividend">Dividend</option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="filter-row">
+            <div class="search-group">
+                <input type="text" [(ngModel)]="searchQuery" placeholder="Search transactions..." class="search-input">
+                <button (click)="applyFilters()" class="search-button">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div> -->
+        <div class="filter-row">
+            <div class="search-group">
+              <div class="search-input-container">
+                <input type="text" [(ngModel)]="searchQuery" 
+                       placeholder="Search transactions..." 
+                       class="search-input">
+                <button *ngIf="searchQuery && searchQuery.trim().length > 0" 
+                        (click)="clearSearch()" 
+                        class="clear-button" 
+                        type="button">
+                  <i class="fas fa-times">x</i>
+                </button>
+              </div>
+              <button (click)="applyFilters()" class="search-button">
+                <i class="fas fa-search"></i> Search
+              </button>
+            </div>
+          </div>
+    </div>
+    
+    <!-- Tabs Navigation -->
+    <div class="tabs-container">
+        <button *ngFor="let tab of tabs" [class.active]="activeTab === tab.id" (click)="activeTab = tab.id"
+            class="tab-button">
+            {{ tab.label }}
+        </button>
+        
+    </div>
+   
+    <!-- Tables Section -->
+    <div class="table-container">
+        <!-- Stocks Table -->
+        <div *ngIf="activeTab === 'stocks'" class="table-card">
+            <div class="table-header">
+                <h3 class="table-title">STOCKS TRANSACTIONS</h3>
+                <button class="export-btn" (click)="exportStocksToExcel()">
+                    <i class="fas fa-download"></i> Export Excel
+                </button>
+            </div>
+            <div class="table-wrapper">
+                <table class="transaction-table">
+                    <!-- Table headers and rows -->
+                    <thead>
+                        <tr>
+                            <th (click)="sort('date')">Date {{ getSortSymbol('date') }}</th>
+                            <th (click)="sort('symbol')">Symbol {{ getSortSymbol('symbol') }}</th>
+                            <th (click)="sort('exchange')">Exchange {{ getSortSymbol('exchange') }}</th>
+                            <th (click)="sort('type')">Type {{ getSortSymbol('type') }}</th>
+                            <th (click)="sort('quantity')">Qty {{ getSortSymbol('quantity') }}</th>
+                            <th (click)="sort('price')">Price {{ getSortSymbol('price') }}</th>
+                            <th (click)="sort('amount')">Amount {{ getSortSymbol('amount') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let transaction of filteredStocks">
+                            <td>{{ transaction.date | date:'dd-MMM-yyyy' }}</td>
+                            <td>{{ transaction.symbol }}</td>
+                            <td>{{ transaction.exchange }}</td>
+                            <td>{{ transaction.type }}</td>
+                            <td>{{ transaction.quantity }}</td>
+                            <td>₹{{ transaction.price | number:'1.2-2' }}</td>
+                            <td class="amount">₹{{ transaction.amount | number:'1.2-2' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- pagination control section  -->
+            <div class="pagination-container">
+                <div class="pagination-controls">
+                    <div class="page-size-selector">
+                        <label>Items per page:</label>
+                        <select [(ngModel)]="pageSize" (change)="changePageSize(pageSize)" class="form-input">
+                            <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                        </select>
+                    </div>
+
+                    <div class="page-nav">
+                        <button [disabled]="currentPage === 1" (click)="prevPage()" class="page-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+
+                        <ng-container *ngFor="let page of pageNumbers">
+                            <button *ngIf="page !== -1" [class.active]="currentPage === page" (click)="goToPage(page)"
+                                class="page-btn">
+                                {{ page }}
+                            </button>
+                            <span *ngIf="page === -1" class="page-ellipsis">...</span>
+                        </ng-container>
+
+                        <button [disabled]="currentPage === totalPages" (click)="nextPage()" class="page-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="page-info">
+                        {{ ((currentPage - 1) * pageSize) + 1 }} - {{ getDisplayedTo() }} of {{ activeTabTotalCount }}
+                        items
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bonds Table -->
+        <div *ngIf="activeTab === 'bonds'" class="table-card">
+            <div class="table-header">
+                <h3 class="table-title">BONDS TRANSACTIONS</h3>
+                <button class="export-btn" (click)="exportBondsToExcel()">
+                    <i class="fas fa-download"></i> Export Excel
+                </button>
+            </div>
+            <div class="table-wrapper">
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th (click)="sort('date')">Date {{ getSortSymbol('date') }}</th>
+                            <th (click)="sort('name')">Bond Name {{ getSortSymbol('name') }}</th>
+                            <th (click)="sort('type')">Type {{ getSortSymbol('type') }}</th>
+                            <th (click)="sort('price')">Price {{ getSortSymbol('price') }} </th>
+                            <th (click)="sort('price')">Units {{ getSortSymbol('units') }} </th>
+                            <th (click)="sort('couponRate')">Interest Rate {{ getSortSymbol('InterestRate') }}</th>
+                            <!-- <th (click)="sort('quantity')">Qty {{ getSortSymbol('quantity') }}</th> -->
+                            <th (click)="sort('amount')">Amount {{ getSortSymbol('amount') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let transaction of filteredBonds">
+                            <td>{{ transaction.date | date:'dd-MMM-yyyy' }}</td>
+                            <td>{{ transaction.name }}</td>
+                            <td>{{ transaction.type }}</td>
+                            <td>{{ transaction.price }}</td>
+                            <td>{{ transaction.units }}</td>
+                            <td>{{ transaction.InterestRate }}%</td>
+                            <!-- <td>{{ transaction.quantity }}</td> -->
+                            <td class="amount">₹{{ transaction.amount | number:'1.2-2' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-container">
+                <div class="pagination-controls">
+                    <div class="page-size-selector">
+                        <label>Items per page:</label>
+                        <select [(ngModel)]="pageSize" (change)="changePageSize(pageSize)" class="form-input">
+                            <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                        </select>
+                    </div>
+
+                    <div class="page-nav">
+                        <button [disabled]="currentPage === 1" (click)="prevPage()" class="page-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+
+                        <ng-container *ngFor="let page of pageNumbers">
+                            <button *ngIf="page !== -1" [class.active]="currentPage === page" (click)="goToPage(page)"
+                                class="page-btn">
+                                {{ page }}
+                            </button>
+                            <span *ngIf="page === -1" class="page-ellipsis">...</span>
+                        </ng-container>
+
+                        <button [disabled]="currentPage === totalPages" (click)="nextPage()" class="page-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="page-info">
+                        {{ ((currentPage - 1) * pageSize) + 1 }} - {{ getDisplayedTo() }} of {{ activeTabTotalCount }}
+                        items
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mutual Funds Table -->
+        <div *ngIf="activeTab === 'mutual-funds'" class="table-card">
+            <div class="table-header">
+                <h3 class="table-title">MUTUAL FUNDS TRANSACTIONS</h3>
+                <button class="export-btn" (click)="exportMutualFundsToExcel()">
+                    <i class="fas fa-download" ></i> Export Excel
+                </button>
+            </div>
+            <div class="table-wrapper">
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th (click)="sort('date')">Date {{ getSortSymbol('date') }}</th>
+                            <th (click)="sort('scheme')">Scheme {{ getSortSymbol('scheme') }}</th>
+                            <th (click)="sort('type')">Type {{ getSortSymbol('type') }}</th>
+                            <th (click)="sort('units')">Units {{ getSortSymbol('units') }}</th>
+                            <th (click)="sort('nav')">NAV {{ getSortSymbol('nav') }}</th>
+                            <th (click)="sort('amount')">Amount {{ getSortSymbol('amount') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let transaction of filteredMutualFunds">
+                            <td>{{ transaction.date | date:'dd-MMM-yyyy' }}</td>
+                            <td>{{ transaction.scheme }}</td>
+                            <td>{{ transaction.type }}</td>
+                            <td>{{ transaction.units | number:'1.3-3' }}</td>
+                            <td>₹{{ transaction.nav | number:'1.4-4' }}</td>
+                            <td class="amount">₹{{ transaction.amount | number:'1.2-2' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-container">
+                <div class="pagination-controls">
+                    <div class="page-size-selector">
+                        <label>Items per page:</label>
+                        <select [(ngModel)]="pageSize" (change)="changePageSize(pageSize)" class="form-input">
+                            <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                        </select>
+                    </div>
+
+                    <div class="page-nav">
+                        <button [disabled]="currentPage === 1" (click)="prevPage()" class="page-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+
+                        <ng-container *ngFor="let page of pageNumbers">
+                            <button *ngIf="page !== -1" [class.active]="currentPage === page" (click)="goToPage(page)"
+                                class="page-btn">
+                                {{ page }}
+                            </button>
+                            <span *ngIf="page === -1" class="page-ellipsis">...</span>
+                        </ng-container>
+
+                        <button [disabled]="currentPage === totalPages" (click)="nextPage()" class="page-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="page-info">
+                        {{ ((currentPage - 1) * pageSize) + 1 }} - {{ getDisplayedTo() }} of {{ activeTabTotalCount }}
+                        items
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,107 @@
+<div class="fixed-income-container">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="transaction-type">
+      <label for="transactionType">Transaction Type</label>
+      <div class="dropdown">
+        <select id="transactionType" formControlName="transactionType">
+          <option value="buy">Buy</option>
+          <option value="sell">Sell</option>
+          <option value="transfer">Transfer</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="name">Fixed Income Name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Fixed Income name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="date">Investment Date</label>
+        <input
+          id="date"
+          type="date"
+          formControlName="date"
+          class="date-picker"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Investment Amount (₹)</label>
+        <input
+          id="amount"
+          type="number"
+          formControlName="amount"
+          placeholder="Investment amount in ₹"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="rate">Rate of Interest / Coupon Rate (% p.a.)</label>
+        <input
+          id="rate"
+          type="number"
+          step="0.01"
+          formControlName="rate"
+          placeholder="Rate of Interest / Coupon Rate"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="frequency">Compounding Frequency</label>
+        <div class="dropdown">
+          <select id="frequency" formControlName="frequency">
+            <option value="quarterly">Quarterly</option>
+            <!-- More options can be added later -->
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="maturity">Maturity Date</label>
+        <input
+          id="maturity"
+          type="date"
+          formControlName="maturity"
+          class="date-picker"
+        />
+      </div>
+    </div>
+
+    <div class="interest-options">
+      <div class="radio-group">
+        <label>
+          <input type="radio" formControlName="interestType" value="accrued" />
+          Interest Accrued
+        </label>
+      </div>
+      <div class="radio-group">
+        <label>
+          <input type="radio" formControlName="interestType" value="payout" />
+          Interest Payout
+        </label>
+      </div>
+    </div>
+
+    <div class="submit-container">
+      <button type="submit" class="add-transaction-btn">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" />
+        </svg>
+        Add Transaction
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,116 @@
+<div class="container">
+  <h2>Add Stocks Manually</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    
+    <div class="transaction-type-section">
+      <label class="form-label">Transaction Type</label>
+      <div class="select-wrapper">
+        <select formControlName="transactionType">
+          <option value="Buy">Buy</option>
+          <option value="Sell">Sell</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="input-group">
+        <label class="form-label">Stock Name</label>
+        <input
+          class="input-field"
+          formControlName="stockName"
+          placeholder="Stock name"
+        />
+      </div>
+
+      <div class="input-group">
+        <label class="form-label">Demat A/c</label>
+        <input
+          class="input-field"
+          formControlName="demat"
+          placeholder="Demat A/c"
+        />
+      </div>
+
+      <div class="input-group">
+        <label class="form-label">Date of Investment</label>
+        <div class="date-picker">
+          <input
+            class="input-field date-input"
+            formControlName="date"
+            type="date"
+          />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="form-label">No. of Shares</label>
+        <input
+          class="input-field"
+          formControlName="shares"
+          placeholder="No. of Shares"
+        />
+      </div>
+
+      <div class="input-group">
+        <label class="form-label">Brokerage</label>
+        <input
+          class="input-field"
+          formControlName="brokerage"
+          placeholder="0.100000"
+        />
+        <div class="radio-group">
+          <label class="radio-label">
+            <input
+              type="radio"
+              formControlName="brokerageType"
+              value="percentage"
+              class="radio-input"
+              checked
+            />
+            In %
+          </label>
+          <label class="radio-label">
+            <input
+              type="radio"
+              formControlName="brokerageType"
+              value="currency"
+              class="radio-input"
+            />
+            In ₹
+          </label>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="form-label">Purchase Price</label>
+        <input
+          class="input-field"
+          formControlName="price"
+          placeholder="Purchase price"
+        />
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M12 5V19"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M5 12H19"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      Add Transaction
+    </button>
+  </form>
+</div>

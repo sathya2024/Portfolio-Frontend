@@ -1,0 +1,191 @@
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #64748b;
+  --light-bg: #f8fafc;
+  --border: #e2e8f0;
+  --text: #334155;
+  --text-light: #64748b;
+}
+
+.value-research-header {
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+}
+
+.portfolio-header {
+  background-color: #fff;
+}
+
+.rupee::before {
+  content: "₹";
+}
+
+.user-avatar {
+  cursor: pointer;
+}
+
+.card-title {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.portfolio-header .d-flex {
+  margin-bottom: 1.5rem;
+}
+
+button.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.investment-type-tabs {
+  margin-bottom: 20px;
+}
+
+.investment-type-tabs .nav-link {
+  color: #333;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  margin-right: 10px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.investment-type-tabs .nav-link.active {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.investment-type-tabs .nav-link:hover:not(.active) {
+  background-color: #e9ecef;
+}
+
+.type-badge {
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  border-radius: 4px;
+  display: inline-block;
+  line-height: 1;
+  min-width: 90px;
+  text-align: center;
+}
+
+.badge.type-stock {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badge.type-bond {
+  background-color: #e0e7ff;
+  color: #4338ca;
+}
+
+.badge.type-mutual-fund {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.badge.type-gold-bond {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.btn-outline-primary,
+.btn-outline-danger,
+.btn-outline-info {
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-outline-info:hover {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.fancy-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #004c6a;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.fancy-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.fancy-title {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.fancy-subtitle {
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-outline-info {
+  margin-right: 10px;
+}
+
+.btn-outline-primary {
+  margin-left: 10px;
+}
